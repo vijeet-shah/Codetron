@@ -29,9 +29,18 @@ export const controllerSlice = createSlice({
       const { index, fontSize } = action.payload;
       state.controller[index].fontSize = fontSize;
     },
+    changeTitle: (state, action) => {
+      const { index, title } = action.payload;
+      state.controller[index].title = title;
+    },
+    fontChange: (state, action) => {
+      const { index, fontSize } = action.payload;
+      state.controller[index].fontSize = fontSize;
+    },
   },
 });
 
-export const { turnDarkMode, changeFontSize } = controllerSlice.actions;
+export const { turnDarkMode, changeFontSize, changeTitle, fontChange } =
+  controllerSlice.actions;
 
 export default controllerSlice.reducer;
