@@ -3,14 +3,15 @@ import React, { useState } from "react";
 import Editor from "react-simple-code-editor";
 import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark.css";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
+import { changeTitle } from "@/slices/controllerSlice";
 
 function CodeSpace() {
-  const [title, setTitle] = useState("Untitled");
   const [code, setCode] = useState("");
 
   const state = useAppSelector((state) => state.controller);
+  const dispatch = useAppDispatch();
 
   return (
     <main>
@@ -32,9 +33,14 @@ function CodeSpace() {
             <input
               type="textarea"
               placeholder="file name"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="bg-transparent text-center text-sm font-medium focus:outline-none"
+              value={state[0].title}
+              onChange={(e) =>
+                dispatch(changeTitle({ index: 0, title: e.target.value }))
+              }
+              className={cn(
+                "bg-transparent text-center text-sm font-medium focus:outline-none",
+                state[0].darkMode ? "text-gray-400" : "text-gray-900"
+              )}
             />
           </div>
         </header>
@@ -48,7 +54,7 @@ function CodeSpace() {
           }
           style={{
             fontFamily: "jetBrainsMono, monospace",
-            fontSize: 18,
+            fontSize: state[0].fontSize,
           }}
           textareaClassName="focus:outline-none "
         />
